@@ -11,16 +11,23 @@ module Babel::Operation
     let(:other_name) { "my_other_name@default.invalid" }
     let(:someone_else) { "someone_else@default.invalid" }
     # Some collections owned by the user
-    let!(:my_collection_abc) { Babel::Model::MBCollection.create(owner: old_identity, owner_name: other_name, name: "My Collection ABC") }
-    let!(:my_collection_def) { Babel::Model::MBCollection.create(owner: old_identity, owner_name: old_name, name: "My Collection DEF") }
+    let!(:my_collection_abc) {
+      Babel::Model::MBCollection.create(owner: old_identity, owner_name: other_name, name: "My Collection ABC")
+    }
+    let!(:my_collection_def) {
+      Babel::Model::MBCollection.create(owner: old_identity, owner_name: old_name, name: "My Collection DEF")
+    }
     # A collection not owned by the user
-    let!(:someone_elses_collection) { Babel::Model::MBCollection.create(owner: someone_else, name: "Someone Else's Collection") }
+    let!(:someone_elses_collection) {
+      Babel::Model::MBCollection.create(owner: someone_else, name: "Someone Else's Collection")
+    }
     # An unknown collection id
     # TODO: create dynamically as max + 1?
     let(:unknown_collection_id) { 0 }
     # A transfer for collection ABC
-    let!(:my_pending_transfer) { Babel::Model::MBTransfer.create(submitter: old_identity, receiver: new_identity, payload: [my_collection_abc.id]) }
-    # let(:my_transfer_all) { Babel::Model::MBCollection.create(from: old_identity, to: new_identity, all: true) }
+    let!(:my_pending_transfer) {
+      Babel::Model::MBTransfer.create(submitter: old_identity, receiver: new_identity, payload: [my_collection_abc.id])
+    }
     # TransferCollection objects for all, and for an everyrhing-and-the-kitchen-sink payload
     let(:transfer_all) { described_class.new(from: old_identity, to: new_identity, all: true) }
     let(:transfer_payload) {
@@ -68,8 +75,6 @@ module Babel::Operation
 
     describe ".pending_collections" do
       it "identifies a collection that already has a transfer" do
-        # require "debug"
-        # binding.break
         expect(transfer_payload.pending_collections).to eq([my_collection_abc.id])
       end
     end
