@@ -28,9 +28,11 @@ module Babel
 
       it "raises if credentials are not valid" do
         ClimateControl.modify MARIADB_HT_PASSWORD: nil do
-          expect {
-            described_class.new
-          }.to raise_error(Sequel::DatabaseConnectionError)
+          silence_log do
+            expect {
+              described_class.new
+            }.to raise_error(Sequel::DatabaseConnectionError)
+          end
         end
       end
     end
