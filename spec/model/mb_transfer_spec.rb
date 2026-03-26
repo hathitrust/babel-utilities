@@ -10,7 +10,7 @@ module Babel::Model
       described_class.dataset.delete
     end
 
-    describe ".create" do
+    describe "#create" do
       it "returns a MBTransfer with the expected default values" do
         transfer = described_class.create
         expect(transfer).to be_a(described_class)

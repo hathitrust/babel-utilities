@@ -5,7 +5,7 @@ require "sequel"
 
 module Babel
   RSpec.describe(Database) do
-    describe ".new" do
+    describe "#new" do
       it "returns a Database" do
         expect(described_class.new).to be_a(described_class)
       end

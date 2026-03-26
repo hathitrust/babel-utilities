@@ -85,13 +85,13 @@ module Babel::Operation
       end
     end
 
-    describe "#submitter_usernames" do
+    describe ".submitter_usernames" do
       it "extracts all and only the `owner` and `owner_name` values" do
         expect(transfer_payload.submitter_usernames).to eq([old_identity, old_name].sort)
       end
     end
 
-    describe "#mb_transfer" do
+    describe ".mb_transfer" do
       it "returns a Babel::Model::MBTransfer with the expected values" do
         expect(transfer_payload.mb_transfer).to be_a(Babel::Model::MBTransfer)
         expect(transfer_payload.mb_transfer.submitter).to eq(transfer_payload.from)
@@ -101,7 +101,7 @@ module Babel::Operation
       end
     end
 
-    describe "#run!" do
+    describe ".run!" do
       it "returns a token" do
         expect(transfer_payload.run!).to match(/[0-9A-Za-z-]{36}/)
       end

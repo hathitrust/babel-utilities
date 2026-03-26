@@ -40,7 +40,7 @@ module Babel::Model
       end
     end
 
-    describe ".create" do
+    describe "#create" do
       it "returns a Collection with default values" do
         collection = described_class.create
         expect(collection).to be_a(described_class)
