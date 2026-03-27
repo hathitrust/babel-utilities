@@ -1,0 +1,40 @@
+---
+x-condition-healthy: &healthy
+  condition: service_healthy
+
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 5s
+  timeout: 10s
+  start_period: 10s
+  retries: 5
+
+services:
+  test:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - gem_cache:/gems
+    command: bundle exec rspec
+    environment:
+      # See config/env for the database credentials
+      BABEL_LOGGER_LEVEL: 1 # Logger::INFO
+      LOG_SQL: 1
+    depends_on:
+      mariadb: *healthy
+
+  mariadb:
+    image: ghcr.io/hathitrust/db-image
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: ht
+      MYSQL_USER: ht_rights
+      MYSQL_PASSWORD: ht_rights
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
+
+volumes:
+  gem_cache:
